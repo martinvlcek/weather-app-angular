@@ -1,37 +1,18 @@
 import {Injectable} from '@angular/core';
 import {WeatherInterface} from "./weather";
 import {BehaviorSubject, catchError, from, mergeMap, Observable, of, tap} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {HandleErrorService} from "./handle-error.service";
 import {addValueToLocaleStorage, removeValueFromLocaleStorage} from "./helpers";
+import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class WeatherService {
-  readonly apiKey: string = "9ac6df1b2ee3bacfab0e9a002499c5d4"
-
-  readonly apiUrl: string = `https://api.openweathermap.org/data/2.5/weather
-    ?q=%LOCATION%
-    &APPID=${this.apiKey}
-    &units=metric`
-
-  readonly apiUrl2: string = `https://api.openweathermap.org/data/2.5/forecast
-    ?q=%LOCATION%
-    &APPID=${this.apiKey}
-    &units=metric
-    &cnt=15`
-
-  readonly apiUrl3: string = `https://api.openweathermap.org/data/2.5/weather
-    ?id=%ID%
-    &APPID=${this.apiKey}
-    &units=metric`
-
-  readonly apiUrl4: string = `https://api.openweathermap.org/data/2.5/forecast
-    ?id=%ID%
-    &APPID=${this.apiKey}
-    &units=metric
-    &cnt=15`
+  private readonly apiKey: string = environment.apiKey
+  private readonly apiUrl1: string = environment.apiUrl1
+  private readonly apiUrl2: string = environment.apiUrl2
 
   private selectedWeatherDataSubject: BehaviorSubject<WeatherInterface | null> = new BehaviorSubject<WeatherInterface | null>(null)
   private selectedWeather$: Observable<WeatherInterface | null> = this.selectedWeatherDataSubject.asObservable()
@@ -46,11 +27,11 @@ export class WeatherService {
 
   fetchWeatherData(location: string): Observable<WeatherInterface | null> {
     if (location.trim()) {
-      return this.weatherDataApiCall(location).pipe(
+      return this.weatherDataApiCall(location, true).pipe(
         tap((response: any) => {
           this.selectedWeatherDataSubject.next(response)
         }),
-        catchError(this.handleErrorService.handleError('fetch data', location, null))
+        catchError(this.handleErrorService.handleError('fetchWeatherData', location, null))
       )
     } else {
       this.selectedWeatherDataSubject.next(null)
@@ -58,48 +39,33 @@ export class WeatherService {
     }
   }
 
-  fetchWeatherDataById(id: string): Observable<WeatherInterface> {
-    return this.http.get<WeatherInterface>(this.apiUrl3
-      .replace('%ID%', id)
-      .replaceAll(/\s/g, "")
-    )
-  }
-
   fetchStoredWeatherData(): Observable<any> {
     if (localStorage.getItem("weather")) {
       this.storedWeatherDataSubject.next([]);
 
       return from(this.getStoredWeatherDataKeys()).pipe(
-        mergeMap((location: string) => this.weatherDataApiCall(location)),
+        mergeMap((location: string) => this.weatherDataApiCall(location, false)),
         tap((data: WeatherInterface) => {
           const currentData: WeatherInterface[] = this.storedWeatherDataSubject.getValue();
           const newData: WeatherInterface[] = [...currentData, data];
           this.storedWeatherDataSubject.next(newData);
         }),
-        catchError(this.handleErrorService.handleError("fetch local storage data", []))
+        catchError(this.handleErrorService.handleError("fetchStoredWeatherData", []))
       )
     } else {
       return of([])
     }
   }
 
-  fetchFiveDaysWeatherData(location: string): Observable<WeatherInterface> {
-    return this.http.get<WeatherInterface>(this.apiUrl2
-      .replace('%LOCATION%', location)
-      .replaceAll(/\s/g, ""))
-  }
+  weatherDataApiCall(value: string | number, byName: boolean, singleCall: boolean = true): Observable<WeatherInterface> {
+    let params: HttpParams = new HttpParams()
+      .set(byName ? "q" : "id", value)
+      .set("APPID", this.apiKey)
+      .set("units", "metric")
 
-  fetchFiveDaysWeatherDataById(id: string): Observable<WeatherInterface> {
-    return this.http.get<WeatherInterface>(this.apiUrl4
-      .replace('%ID%', id)
-      .replaceAll(/\s/g, ""))
-  }
+    if (!singleCall) params = params.set("cnt", 15)
 
-  weatherDataApiCall(location: string): Observable<WeatherInterface> {
-    return this.http.get<WeatherInterface>(this.apiUrl
-      .replaceAll(/\s/g, "")
-      .replace("%LOCATION%", location)
-    )
+    return this.http.get<WeatherInterface>(!singleCall ?  this.apiUrl2 : this.apiUrl1, { params })
   }
 
   addToFavorites(weather: WeatherInterface): void {

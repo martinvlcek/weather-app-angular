@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {WeatherInterface} from "../weather";
 import {WeatherService} from "../weather.service";
 import {map, Observable} from "rxjs";
-import {sortByName} from "../helpers";
+import {sortByStoredIds} from "../helpers";
 import {Router} from "@angular/router";
 
 @Component({
@@ -20,7 +20,7 @@ export class WeatherFavoriteComponent implements OnInit {
     .pipe(
       map((weather: WeatherInterface[]) => weather
         .slice()
-        .sort(sortByName))
+        .sort(sortByStoredIds))
     )
 
   ngOnInit() {

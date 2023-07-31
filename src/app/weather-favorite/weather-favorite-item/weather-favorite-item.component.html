@@ -1,11 +1,11 @@
 <div class="fav-weather-card">
-  <h1>{{ favWeather?.name }} <small>({{ favWeather?.sys?.country }})</small></h1>
-  <h5>{{ favWeather?.weather![0].main }}, {{ favWeather?.main?.temp }}°C</h5>
+  <h1>{{ favWeather.name }} <small>({{ favWeather.sys.country }})</small></h1>
+  <h5>{{ favWeather.weather[0].main }}, {{ favWeather.main.temp }}°C</h5>
 
   <div class="fav-weather-card-icons">
     <img
       class="weather-icon"
-      src="http://openweathermap.org/img/w/{{favWeather?.weather![0].icon}}.png"
+      src="http://openweathermap.org/img/w/{{favWeather.weather[0].icon}}.png"
       alt="Weather icon"
     >
 

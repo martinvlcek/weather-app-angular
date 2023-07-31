@@ -12,9 +12,8 @@ export class WeatherMainComponent implements OnInit, OnChanges {
   @Input() searchValue?: string = ''
   @Input() selectedWeather?: WeatherInterface | null
   @Input() isDetail: boolean = false
-  @Output() emitFiveDaysForecast: EventEmitter<string> = new EventEmitter<string>()
+  @Output() emitFiveDaysForecast: EventEmitter<number> = new EventEmitter<number>()
 
-  fiveDaysForecastData: WeatherInterface[] = []
   alreadyInFavorites: boolean = false
   disabledButton: boolean = false
 
@@ -27,7 +26,6 @@ export class WeatherMainComponent implements OnInit, OnChanges {
       .subscribe((data: WeatherInterface[]) => {
         this.alreadyInFavorites = data.some((item: WeatherInterface): boolean => item.id === this.selectedWeather?.id);
       })
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -48,12 +46,6 @@ export class WeatherMainComponent implements OnInit, OnChanges {
   }
 
   fiveDaysForecast(weather: WeatherInterface): void {
-    this.emitFiveDaysForecast.emit(weather.name)
-
-    this.weatherService.fetchFiveDaysWeatherData(weather.name).subscribe(
-      (data: any) => {
-        this.fiveDaysForecastData = data.list
-      }
-    )
+    this.emitFiveDaysForecast.emit(weather.id)
   }
 }

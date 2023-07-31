@@ -1,23 +1,23 @@
 import {WeatherInterface} from "./weather";
 
-export function sortByName(a: WeatherInterface, b: WeatherInterface) {
+export function sortByStoredIds(a: WeatherInterface, b: WeatherInterface) {
   return a.name.localeCompare(b.name)
 }
 
 export function addValueToLocaleStorage(value: WeatherInterface): void {
   if (localStorage.getItem("weather")) {
-    localStorage.setItem("weather", localStorage.getItem("weather") + ";" + value.name)
+    localStorage.setItem("weather", localStorage.getItem("weather") + ";" + value.id)
   } else {
-    localStorage.setItem("weather", value.name)
+    localStorage.setItem("weather", value.id.toString())
   }
 }
 
 export function removeValueFromLocaleStorage(value: WeatherInterface[]): void {
   if (value.length) {
-    let citiesNames: string = "";
+    let citiesIds: string = "";
 
-    value.map((d: WeatherInterface, i: number) => i === 0 ? citiesNames = d.name : citiesNames +=  ";" + d.name)
-    localStorage.setItem("weather", citiesNames.trim());
+    value.map((d: WeatherInterface, i: number) => i === 0 ? citiesIds = d.id.toString() : citiesIds +=  ";" + d.id.toString())
+    localStorage.setItem("weather", citiesIds.trim());
   } else {
     localStorage.setItem("weather", "");
   }

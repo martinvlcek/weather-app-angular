@@ -19,17 +19,17 @@ export class WeatherDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.weatherService.fetchWeatherDataById(this.route.snapshot.params['id']).subscribe(
+    this.weatherService.weatherDataApiCall(this.route.snapshot.params['id'], false).subscribe(
       (data: WeatherInterface) => this.selectedWeather = data
     )
 
-    this.weatherService.fetchFiveDaysWeatherDataById(this.route.snapshot.params['id']).subscribe(
+    this.weatherService.weatherDataApiCall(this.route.snapshot.params['id'], false, false).subscribe(
       (data: any) => this.fiveDaysForecastData = data.list
     )
   }
 
-  handleFiveDaysForecast(value: string): void {
-    this.weatherService.fetchFiveDaysWeatherData(value).subscribe(
+  handleFiveDaysForecast(value: number): void {
+    this.weatherService.weatherDataApiCall(value, false).subscribe(
       (data: any) => {
         this.fiveDaysForecastData = data.list
       }

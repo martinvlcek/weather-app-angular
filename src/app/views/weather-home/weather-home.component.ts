@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {WeatherInterface} from "../../weather";
 import {WeatherService} from "../../weather.service";
-import {formatDate} from "../../helpers";
 import {Observable} from "rxjs";
 
 @Component({
@@ -21,13 +20,11 @@ export class WeatherHomeComponent {
     this.fiveDaysForecastData = []
   }
 
-  handleFiveDaysForecast(value: string): void {
-    this.weatherService.fetchFiveDaysWeatherData(value).subscribe(
+  handleFiveDaysForecast(value: number): void {
+    this.weatherService.weatherDataApiCall(value, false, false).subscribe(
       (data: any) => {
         this.fiveDaysForecastData = data.list
       }
     )
   }
-
-  protected readonly formatDate = formatDate;
 }

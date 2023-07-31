@@ -1,6 +1,6 @@
 <span>{{ formatDate(weather) }}</span>
 <div class="weather-icon-wrapper">
-  <img class="weather-icon" src="http://openweathermap.org/img/w/{{weather?.weather![0].icon}}.png" width="30" height="30" alt="Weather icon">
-  <span>{{ weather?.main?.temp!.toFixed() }}°C</span>
+  <img class="weather-icon" src="http://openweathermap.org/img/w/{{weather.weather[0].icon}}.png" width="30" height="30" alt="Weather icon">
+  <span>{{ weather.main.temp.toFixed() }}°C</span>
 </div>
-<span>{{ weather?.weather![0].main }}</span>
+<span>{{ weather.weather[0].main }}</span>
