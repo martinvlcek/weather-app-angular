@@ -1,0 +1,10 @@
+<div class="search-wrapper">
+  <input
+    type="text"
+    autofocus
+    #searchValue
+    placeholder="Search city..."
+    (keydown.enter)="search(searchValue.value)"
+  >
+  <img class="enter-icon" src="assets/enter.svg" alt="Enter icon">
+</div>

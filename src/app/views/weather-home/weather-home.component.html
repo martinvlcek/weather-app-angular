@@ -1,0 +1,21 @@
+<header>
+  <app-weather-search
+    (emitSearchValue)="handleSearchValue($event)"
+  ></app-weather-search>
+</header>
+
+<main>
+  <app-weather-main
+    (emitFiveDaysForecast)="handleFiveDaysForecast($event)"
+    [searchValue]="searchValue"
+    [selectedWeather]="weather$ | async"
+  ></app-weather-main>
+
+  <app-weather-extended
+    *ngIf="fiveDaysForecastData.length"
+    [fiveDaysForecastData]="fiveDaysForecastData"
+    class="five-days-weather-wrapper"
+  ></app-weather-extended>
+</main>
+
+<app-weather-favorite></app-weather-favorite>

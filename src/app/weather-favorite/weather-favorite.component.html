@@ -1,0 +1,14 @@
+<div *ngIf="(favWeathers$ | async)!.length > 0 && (favWeathers$ | async) as favWeathers" class="fav-weather-wrapper">
+  <div class="fav-weather-wrapper">
+    <h2 class="fav-title">Favorites</h2>
+
+    <div class="fav-weather-cards-wrapper">
+      <app-weather-favorite-item
+        *ngFor="let favWeather of favWeathers"
+        (click)="goToDetail(favWeather)"
+        [favWeather]="favWeather"
+        class="fav-weather-card-wrapper"
+      ></app-weather-favorite-item>
+    </div>
+  </div>
+</div>

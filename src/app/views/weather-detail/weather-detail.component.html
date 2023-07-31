@@ -1,0 +1,27 @@
+<header>
+  <nav>
+    <img
+      class="back-icon"
+      src="assets/arrow-left-solid.svg"
+      alt="back icon"
+      height="24"
+      width="24"
+      (click)="goToHome()"
+    >
+  </nav>
+</header>
+
+<main>
+  <app-weather-main
+    (emitFiveDaysForecast)="handleFiveDaysForecast($event)"
+    [selectedWeather]="selectedWeather"
+    [isDetail]="true"
+  ></app-weather-main>
+
+
+  <app-weather-extended
+    *ngIf="fiveDaysForecastData.length"
+    [fiveDaysForecastData]="fiveDaysForecastData"
+    class="five-days-weather-wrapper"
+  ></app-weather-extended>
+</main>

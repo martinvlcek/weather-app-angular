@@ -1,0 +1,62 @@
+.fav-weather-card {
+  text-align: left;
+  padding: 10px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+  border-radius: 4px;
+  transition: .2s box-shadow ease;
+
+  &:hover {
+    box-shadow: rgba(149, 157, 165, 0.2) 0 32px 24px;
+  }
+
+  h1 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+
+  h4 {
+    margin-top: 0;
+  }
+
+  h5 {
+    margin-top: 0;
+  }
+
+  button {
+    margin-top: 15px;
+    border: none;
+    background: transparent;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: .2s all ease;
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 1px 1px 0, rgba(0, 0, 0, 0.06) 0 1px 1px 0;
+
+    &:hover, &:focus {
+      box-shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+    }
+  }
+
+  .fav-weather-card-icons {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    .weather-icon {
+      width: 75px;
+      height: auto;
+    }
+
+    .remove-icon {
+      cursor: pointer;
+      transition: .2s transform ease;
+
+      &:hover {
+        transform: scale(1.25);
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+<div class="weather-card" *ngIf="selectedWeather as weather">
+  <div class="weather-card-content-wrapper">
+    <div>
+      <h1>{{ weather?.name }} <small>({{ weather?.sys?.country }})</small></h1>
+      <h4>Current conditions: {{ weather?.weather![0].main }}</h4>
+
+      <h2>Temperatures today:</h2>
+
+      <h4>
+        Current: <span>{{ weather?.main?.temp }}°C</span> -
+        Min: <span>{{ weather?.main?.temp_min }}°C</span> -
+        Max: <span>{{ weather?.main?.temp_max }}°C</span>
+      </h4>
+
+      <ng-container *ngIf="!isDetail">
+        <img class="add-remove-icon" *ngIf="alreadyInFavorites" src="assets/star-solid.svg" alt="" height="24" width="24" (click)="removeWeatherFromFavorites(weather)">
+        <img class="add-remove-icon" *ngIf="!alreadyInFavorites" src="assets/star-regular.svg" alt="" height="24" width="24" (click)="addWeatherToFavorites(weather)">
+        <button [disabled]="disabledButton" type="button" (click)="fiveDaysForecast(weather)">Show extended forecast</button>
+      </ng-container>
+    </div>
+
+    <img class="weather-icon" src="http://openweathermap.org/img/w/{{weather?.weather![0].icon}}.png" alt="Weather icon">
+  </div>
+</div>

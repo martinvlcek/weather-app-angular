@@ -1,0 +1,27 @@
+.fav-weather-wrapper {
+  width: 450px;
+  margin-left: auto;
+  margin-right: auto;
+
+  .fav-title {
+    text-align: left;
+    margin-bottom: 10px;
+    margin-top: 0;
+  }
+
+  .fav-weather-cards-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+
+    .fav-weather-card-wrapper {
+      width: 215px;
+      margin-bottom: 20px;
+      cursor: pointer;
+
+      &:nth-child(odd) {
+        margin-right: 20px;
+      }
+    }
+  }
+}
+
