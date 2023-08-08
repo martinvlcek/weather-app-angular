@@ -17,6 +17,8 @@ export class WeatherMainComponent implements OnInit, OnChanges {
   alreadyInFavorites: boolean = false
   disabledButton: boolean = false
 
+  title: string = "only test title"
+
   constructor(private weatherService: WeatherService) {}
 
   ngOnInit() {
